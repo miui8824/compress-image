@@ -20,6 +20,9 @@
     "压缩图片"
   ],
   "author": "781306919@qq.com",
+  "publishConfig": {
+    "registry": "https://github.com/miui8824/compress-image.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.17.8",
