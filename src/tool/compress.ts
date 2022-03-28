@@ -44,7 +44,7 @@ export class CompressImage {
       destination: this.compressConfig.output,
       plugins: [
         imageminPngquant({
-          quality: [0.3, 0.8], //压缩质量（0,1）
+          quality: [0.5, 0.8], //压缩质量（0,1）
         }),
       ],
     });
@@ -57,10 +57,10 @@ export class CompressImage {
     //   先检查下目录
     this.checkOutput();
     // 匹配当目录文件
-    const files = globFast.sync([`${this.compressConfig.dir}/*.png`, `${this.compressConfig.dir}/*.jpg`, `${this.compressConfig.dir}/*.jpeg`], { dot: true });
+    const files = globFast.sync(['*.png', '*.jpeg', '*jpg'], { dot: true, cwd: this.compressConfig.dir });
     // 记录下当前压缩进度
     let compressionNumber = 0;
-    files.map(async (item, i) => {
+    files.map(async (item) => {
       const extname = path.extname(item);
       const reg = new RegExp(extname, 'ig');
       const baseName = path.basename(item).replace(reg, '');
@@ -77,6 +77,10 @@ export class CompressImage {
           const res = await this.compressPng(item);
           compressSize = res;
         }
+      } else {
+        fs.copyFileSync(`${this.compressConfig.dir}/${item}`, `${this.compressConfig.output}/${item}`);
+        const { size } = await this.getImageInfo(`${this.compressConfig.output}/${item}`);
+        compressSize = size;
       }
 
       const text = `压缩完成:文件实际大小${size}Mb,压缩后文件大小${compressSize}mb,压缩率:${((1 - compressSize / size) * 100).toFixed(2)}%`;
