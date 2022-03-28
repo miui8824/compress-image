@@ -12,7 +12,7 @@ const extensions = ['.js', '.ts'];
 
 const ENV = process.env.NODE_ENV;
 module.exports = {
-  input: globFast.sync(['./src/**/*.ts'], { dot: true }),
+  input: globFast.sync(['./src/**/*.ts', './src/**/*.js'], { dot: true }),
   external:["imagemin"],
   plugins: [
     cleandir(),

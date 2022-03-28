@@ -11,6 +11,7 @@
     "dev": "NODE_ENV=development rollup -c -w",
     "build": "NODE_ENV=production rollup -c"
   },
+  "files": ["dist/","lib/"],
   "keywords": [
     "image",
     "compress",
