@@ -1,8 +1,10 @@
 {
   "name": "compress-image-rc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "bin": "bin/index.js",
+  "bin": {
+    "compress-image-rc": "bin/index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compress": "compress-image-rc -p /Users/haishengfan/Downloads/oss-imgs -m 1",
