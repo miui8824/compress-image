@@ -9,7 +9,7 @@ program
   // .command('compress')
   .description('serve your project in development mode')
   .option('-d, --dir <dir>', `Your current directory (default:${currPath})`, currPath)
-  .option('-m, --min <min>', 'Minimum compressed volume in MB (default:1MB)', 100)
+  .option('-m, --min <min>', 'Minimum compressed volume in MB (default:1MB)', 1)
   .option('-q, --quality <quality>', 'compression quality (default:1MB)', 70)
   .option('-w, --width <width>', 'Compress maximum width', 1080)
   .option('-o, --output <output>', 'Output directory (default: --dir/output)', `${currPath}/output`)
