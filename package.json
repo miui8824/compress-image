@@ -1,6 +1,6 @@
 {
   "name": "compress-image-rc",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "bin": {
     "compress-image-rc": "bin/index.js"
@@ -11,7 +11,10 @@
     "dev": "NODE_ENV=development rollup -c -w",
     "build": "NODE_ENV=production rollup -c"
   },
-  "files": ["dist/","lib/"],
+  "files": [
+    "dist/",
+    "lib/"
+  ],
   "keywords": [
     "image",
     "compress",
