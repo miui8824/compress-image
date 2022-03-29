@@ -57,7 +57,9 @@ export class CompressImage {
     //   先检查下目录
     this.checkOutput();
     // 匹配当目录文件
+    console.log('正在读取');
     const files = globFast.sync(['*.png', '*.jpeg', '*jpg'], { dot: true, cwd: this.compressConfig.dir });
+    console.log(`读取完成:匹配总文件${files.length}个`);
     // 记录下当前压缩进度
     let compressionNumber = 0;
     files.map(async (item) => {
