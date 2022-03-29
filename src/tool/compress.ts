@@ -23,14 +23,14 @@ export class CompressImage {
     const fileInfo = fs.statSync(url);
     const size = +(fileInfo.size / 1024 / 1024).toFixed(2);
     if (isWidth) {
-      const dimensions = await probe(url);
+      const dimensions = await probe(fs.createReadStream(url));
       return { size, width: dimensions.width, height: dimensions.height };
     }
     return { size };
   }
   async compressJpg(params: CompressJpegType) {
     const { width = 0 } = await this.getImageInfo(params.url);
-    const outPath = `${this.compressConfig.output}/${params.baseName}${params.extname}`;
+    const outPath = path.join(this.compressConfig.output, `${params.baseName}${params.extname}`);
     if (width > 1080) {
       images(params.url).size(1080).save(outPath, { quality: this.compressConfig.quality });
     } else {
@@ -62,26 +62,28 @@ export class CompressImage {
     console.log(`读取完成:匹配总文件${files.length}个`);
     // 记录下当前压缩进度
     let compressionNumber = 0;
-    files.map(async (item) => {
+    files.map(async (item, i) => {
       const extname = path.extname(item);
       const reg = new RegExp(extname, 'ig');
       const baseName = path.basename(item).replace(reg, '');
       const { size } = await this.getImageInfo(item);
+      const pathUrl = path.join(this.compressConfig.dir, item);
       let compressSize = 0;
-      compressionNumber++;
       // 小于文件大小不压缩
+      compressionNumber++;
       if (+size > this.compressConfig.min) {
         if (['.jpg', '.jpeg'].includes(extname)) {
-          const res = await this.compressJpg({ baseName, extname, url: item });
+          const res = await this.compressJpg({ baseName, extname, url: pathUrl });
           compressSize = res;
         }
         if (['.png'].includes(extname)) {
-          const res = await this.compressPng(item);
+          const res = await this.compressPng(pathUrl);
           compressSize = res;
         }
       } else {
-        fs.copyFileSync(`${this.compressConfig.dir}/${item}`, `${this.compressConfig.output}/${item}`);
-        const { size } = await this.getImageInfo(`${this.compressConfig.output}/${item}`);
+        const outUrl = path.join(this.compressConfig.output, item);
+        fs.copyFileSync(pathUrl, outUrl);
+        const { size } = await this.getImageInfo(outUrl);
         compressSize = size;
       }
 
