@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import sizeOf from 'image-size';
+import probe from 'probe-image-size';
 import globFast from 'fast-glob';
 import images from 'images';
 import imagemin from 'imagemin';
@@ -23,7 +23,7 @@ export class CompressImage {
     const fileInfo = fs.statSync(url);
     const size = +(fileInfo.size / 1024 / 1024).toFixed(2);
     if (isWidth) {
-      const dimensions = await sizeOf(url);
+      const dimensions = await probe(url);
       return { size, width: dimensions.width, height: dimensions.height };
     }
     return { size };
